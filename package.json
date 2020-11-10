@@ -1,0 +1,36 @@
+{
+  "name": "soprox-abi",
+  "version": "1.0.0",
+  "description": "A convention that convert Rust types to NodeJS types",
+  "main": "dist/index.js",
+  "scripts": {
+    "release": "npm run build && npm publish",
+    "build": "npm run clean && babel lib -d bin",
+    "clean": "rm -rf ./bin"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DescartesNetwork/soprox-abi.git"
+  },
+  "keywords": [
+    "SoproX",
+    "Solana",
+    "ABI"
+  ],
+  "author": "Tu Phan",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DescartesNetwork/soprox-abi/issues"
+  },
+  "homepage": "https://github.com/DescartesNetwork/soprox-abi#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.12.1",
+    "@babel/core": "^7.12.3",
+    "@babel/plugin-proposal-class-properties": "^7.12.1",
+    "@babel/plugin-transform-arrow-functions": "^7.12.1",
+    "@babel/preset-env": "^7.12.1"
+  },
+  "dependencies": {
+    "@solana/web3.js": "^0.86.4"
+  }
+}
