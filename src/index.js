@@ -5,8 +5,8 @@ const create = (type, value = null) => {
   if (types[type]) return new types[type](value);
   const temp = type.split('');
   const boundary = [temp[0], temp[temp.length - 1]].join('');
-  if (boundary === '[]') return new types.array(type);
-  if (boundary === '()') return new types.tuple(type);
+  if (boundary === '[]') return new types.array(type, value);
+  if (boundary === '()') return new types.tuple(type, value);
   throw new Error('Invalid type');
 }
 
