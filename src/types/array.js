@@ -1,3 +1,4 @@
+const { Buffer } = require('buffer');
 const bool = require('./bool');
 const char = require('./char');
 const usize = require('./usize');
@@ -42,6 +43,7 @@ class array {
 
   fromBuffer = (buf) => {
     if (!Buffer.isBuffer(buf)) throw new Error('Invalid buffer');
+    buf = Buffer(buf); // Make sure using intened Buffer
     this.value = [];
     let offset = 0;
     while (offset < this.space) {

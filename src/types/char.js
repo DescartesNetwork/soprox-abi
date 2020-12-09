@@ -1,3 +1,5 @@
+const { Buffer } = require('buffer');
+
 /**
  * Character (UTF8)
  */
@@ -17,6 +19,7 @@ class char {
 
   fromBuffer = (buf) => {
     if (!Buffer.isBuffer(buf)) throw new Error('Invalid buffer');
+    buf = Buffer(buf); // Make sure using intened Buffer
     this.value = buf.toString('utf8');
     return this.value;
   }

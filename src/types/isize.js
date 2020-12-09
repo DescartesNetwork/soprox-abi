@@ -1,3 +1,5 @@
+const { Buffer } = require('buffer');
+
 /**
  * Supportive functions
  */
@@ -49,6 +51,7 @@ class isize {
 
   fromBuffer = (buf) => {
     if (!Buffer.isBuffer(buf)) throw new Error('Invalid buffer');
+    buf = Buffer(buf); // Make sure using intened Buffer
     this.value = buf[type2Read(this.type)]();
     return this.value;
   }

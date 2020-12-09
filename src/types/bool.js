@@ -1,3 +1,5 @@
+const { Buffer } = require('buffer');
+
 /**
  * Boolean
  */
@@ -16,6 +18,7 @@ class bool {
 
   fromBuffer = (buf) => {
     if (!Buffer.isBuffer(buf)) throw new Error('Invalid buffer');
+    buf = Buffer(buf); // Make sure using intened Buffer
     this.value = Boolean(buf.readUIntLE(0, this.space));
     return this.value;
   }
