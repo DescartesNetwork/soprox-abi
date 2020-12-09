@@ -104,10 +104,4 @@ class i64 extends isize {
   }
 }
 
-let a = new i64(-1234n);
-// let b = new i64(1234n);
-// console.log(b.toBuffer());
-let buf = a.toBuffer();
-console.log(buf);
-
 module.exports = { i8, i16, i32, i64 }
