@@ -1,6 +1,6 @@
 {
   "name": "soprox-abi",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A convention that convert Rust types to NodeJS types",
   "main": "dist/index.js",
   "scripts": {
