@@ -1,4 +1,4 @@
-const { Buffer } = require('buffer');
+const buffer = require('buffer');
 
 /**
  * Boolean
@@ -11,14 +11,14 @@ class bool {
   }
 
   toBuffer = () => {
-    const buf = Buffer.allocUnsafe(this.space);
+    const buf = buffer.Buffer.allocUnsafe(this.space);
     buf.writeUIntLE(this.value ? 1 : 0, 0, this.space);
     return buf;
   }
 
   fromBuffer = (buf) => {
-    if (!Buffer.isBuffer(buf)) throw new Error('Invalid buffer');
-    buf = Buffer(buf); // Make sure using intened Buffer
+    if (!buffer.Buffer.isBuffer(buf)) throw new Error('Invalid buffer');
+    buf = buffer.Buffer(buf); // Make sure using intened buffer.Buffer
     this.value = Boolean(buf.readUIntLE(0, this.space));
     return this.value;
   }

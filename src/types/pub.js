@@ -1,4 +1,4 @@
-const { Buffer } = require('buffer');
+const buffer = require('buffer');
 const { PublicKey } = require('@solana/web3.js');
 
 /**
@@ -18,8 +18,8 @@ class pub {
   }
 
   fromBuffer = (buf) => {
-    if (!Buffer.isBuffer(buf)) throw new Error('Invalid buffer');
-    buf = Buffer(buf); // Make sure using intened Buffer
+    if (!buffer.Buffer.isBuffer(buf)) throw new Error('Invalid buffer');
+    buf = buffer.Buffer(buf); // Make sure using intened buffer.Buffer
     this.value = (new PublicKey(buf)).toBase58();
     return this.value;
   }

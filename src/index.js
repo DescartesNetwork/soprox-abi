@@ -1,4 +1,4 @@
-const { Buffer } = require('buffer');
+const buffer = require('buffer');
 const types = require('./types');
 const util = require('./util');
 
@@ -37,8 +37,8 @@ class struct {
   }
 
   fromBuffer = (buf) => {
-    if (!Buffer.isBuffer(buf)) throw new Error('Invalid buffer');
-    buf = Buffer(buf); // Make sure using intened Buffer
+    if (!buffer.Buffer.isBuffer(buf)) throw new Error('Invalid buffer');
+    buf = buffer.Buffer(buf); // Make sure using intened buffer.Buffer
     this.value = {};
     let offset = 0;
     this.schema.forEach(each => {

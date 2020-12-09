@@ -1,4 +1,4 @@
-const { Buffer } = require('buffer');
+const buffer = require('buffer');
 
 /**
  * Supportive functions
@@ -44,14 +44,14 @@ class usize {
   }
 
   toBuffer = () => {
-    const buf = Buffer.allocUnsafe(this.space);
+    const buf = buffer.Buffer.allocUnsafe(this.space);
     buf[type2Write(this.type)](this.value);
     return buf;
   }
 
   fromBuffer = (buf) => {
-    if (!Buffer.isBuffer(buf)) throw new Error('Invalid buffer');
-    buf = Buffer(buf); // Make sure using intened Buffer
+    if (!buffer.Buffer.isBuffer(buf)) throw new Error('Invalid buffer');
+    buf = buffer.Buffer(buf); // Make sure using intened buffer.Buffer
     this.value = buf[type2Read(this.type)]();
     return this.value;
   }
