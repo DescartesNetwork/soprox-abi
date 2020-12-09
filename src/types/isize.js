@@ -1,5 +1,29 @@
-const buffer = require('buffer');
+const BN = require('bn.js');
 
+/**
+ * Buffer patch
+ */
+const ONE = new BN(1);
+const NEONE = new BN(-1);
+const F = new BN('ffffffffffffffff', 16, 'le');
+const MAX = new BN('ffffffffffffff7f', 16, 'le');
+const MIN = MAX.mul(NEONE).add(NEONE);
+Buffer.prototype.writeBigInt64LE = Buffer.prototype.writeBigInt64LE || function (jsBigInt, offset = 0) {
+  const bigInt = new BN(jsBigInt.toString());
+  if (bigInt.gt(MAX) || bigInt.lt(MIN)) throw new Error('BigInt is too big');
+  const reverseBigInt = F.add(bigInt).add(ONE);
+  const arrayBuf = reverseBigInt.toArray('le', this.length);
+  for (let i = 0; i < this.length; i++)
+    this[i] = arrayBuf[i];
+  return offset;
+}
+Buffer.prototype.readBigInt64LE = Buffer.prototype.readBigInt64LE || function (offset = 0) {
+  let bigInt = new BN(this.toString('hex'), 16, 'le');
+  if (bigInt.gt(F)) throw new Error('BigInt is too big');
+  if (bigInt.gt(MAX)) bigInt = F.sub(bigInt).add(ONE);
+  // Using global.BigInt instead of BigInt due to browser understanding
+  return global.BigInt(bigInt.toString());
+}
 /**
  * Supportive functions
  */
@@ -44,14 +68,13 @@ class isize {
   }
 
   toBuffer = () => {
-    const buf = buffer.Buffer.allocUnsafe(this.space);
+    const buf = Buffer.allocUnsafe(this.space);
     buf[type2Write(this.type)](this.value);
     return buf;
   }
 
   fromBuffer = (buf) => {
-    if (!buffer.Buffer.isBuffer(buf)) throw new Error('Invalid buffer');
-    buf = buffer.Buffer(buf); // Make sure using intened buffer.Buffer
+    if (!Buffer.isBuffer(buf)) throw new Error('Invalid buffer');
     this.value = buf[type2Read(this.type)]();
     return this.value;
   }
@@ -80,5 +103,11 @@ class i64 extends isize {
     super(value, 'i64', 8);
   }
 }
+
+let a = new i64(-1234n);
+// let b = new i64(1234n);
+// console.log(b.toBuffer());
+let buf = a.toBuffer();
+console.log(buf);
 
 module.exports = { i8, i16, i32, i64 }

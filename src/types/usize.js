@@ -1,4 +1,24 @@
-const buffer = require('buffer');
+const BN = require('bn.js');
+
+/**
+ * Buffer patch
+ */
+const F = new BN('ffffffffffffffff', 16, 'le');
+Buffer.prototype.writeBigUInt64LE = Buffer.prototype.writeBigUInt64LE || function (jsBigInt, offset = 0) {
+  const bigInt = new BN(jsBigInt.toString());
+  if (bigInt.gt(F)) throw new Error('BigInt is too big');
+  const arrayBuf = bigInt.toArray('le', this.length);
+  for (let i = 0; i < this.length; i++)
+    this[i] = arrayBuf[i];
+  return offset;
+}
+
+Buffer.prototype.readBigUInt64LE = Buffer.prototype.readBigUInt64LE || function (offset = 0) {
+  const bigInt = new BN(this.toString('hex'), 16, 'le');
+  if (bigInt.gt(F)) throw new Error('BigInt is too big');
+  // Using global.BigInt instead of BigInt due to browser understanding
+  return global.BigInt(bigInt.toString());
+}
 
 /**
  * Supportive functions
@@ -44,14 +64,13 @@ class usize {
   }
 
   toBuffer = () => {
-    const buf = buffer.Buffer.allocUnsafe(this.space);
+    const buf = Buffer.allocUnsafe(this.space);
     buf[type2Write(this.type)](this.value);
     return buf;
   }
 
   fromBuffer = (buf) => {
-    if (!buffer.Buffer.isBuffer(buf)) throw new Error('Invalid buffer');
-    buf = buffer.Buffer(buf); // Make sure using intened buffer.Buffer
+    if (!Buffer.isBuffer(buf)) throw new Error('Invalid buffer');
     this.value = buf[type2Read(this.type)]();
     return this.value;
   }

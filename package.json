@@ -1,6 +1,6 @@
 {
   "name": "soprox-abi",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A convention that convert Rust types to NodeJS types",
   "main": "dist/index.js",
   "scripts": {
@@ -32,6 +32,6 @@
   },
   "dependencies": {
     "@solana/web3.js": "^0.86.4",
-    "buffer": "^6.0.3"
+    "bn.js": "^5.1.3"
   }
 }
