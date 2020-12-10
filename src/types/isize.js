@@ -69,13 +69,13 @@ class isize {
 
   toBuffer = () => {
     const buf = Buffer.allocUnsafe(this.space);
-    buf[type2Write(this.type)](this.value);
+    buf[type2Write(this.type)](this.value, 0);
     return buf;
   }
 
   fromBuffer = (buf) => {
     if (!Buffer.isBuffer(buf)) throw new Error('Invalid buffer');
-    this.value = buf[type2Read(this.type)]();
+    this.value = buf[type2Read(this.type)](0);
     return this.value;
   }
 }
