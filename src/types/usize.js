@@ -3,7 +3,7 @@ const BN = require('bn.js');
 /**
  * Buffer patch
  */
-const F = new BN('ffffffffffffffff', 16, 'le');
+const F = new BN(Buffer.from('ffffffffffffffff', 'hex'), 16, 'le');
 Buffer.prototype.writeBigUInt64LE = Buffer.prototype.writeBigUInt64LE || function (jsBigInt, offset = 0) {
   const bigInt = new BN(jsBigInt.toString());
   if (bigInt.gt(F)) throw new Error('BigInt is too big');
@@ -14,7 +14,7 @@ Buffer.prototype.writeBigUInt64LE = Buffer.prototype.writeBigUInt64LE || functio
 }
 
 Buffer.prototype.readBigUInt64LE = Buffer.prototype.readBigUInt64LE || function (offset = 0) {
-  const bigInt = new BN(this.toString('hex'), 16, 'le');
+  const bigInt = new BN(this, 16, 'le');
   if (bigInt.gt(F)) throw new Error('BigInt is too big');
   // Using global.BigInt instead of BigInt due to browser understanding
   return global.BigInt(bigInt.toString());

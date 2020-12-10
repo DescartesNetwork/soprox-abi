@@ -5,8 +5,8 @@ const BN = require('bn.js');
  */
 const ONE = new BN(1);
 const NEONE = new BN(-1);
-const F = new BN('ffffffffffffffff', 16, 'le');
-const MAX = new BN('ffffffffffffff7f', 16, 'le');
+const F = new BN(Buffer.from('ffffffffffffffff', 'hex'), 16, 'le');
+const MAX = new BN(Buffer.from('ffffffffffffff7f', 'hex'), 16, 'le');
 const MIN = MAX.mul(NEONE).add(NEONE);
 Buffer.prototype.writeBigInt64LE = Buffer.prototype.writeBigInt64LE || function (jsBigInt, offset = 0) {
   const bigInt = new BN(jsBigInt.toString());
@@ -18,7 +18,7 @@ Buffer.prototype.writeBigInt64LE = Buffer.prototype.writeBigInt64LE || function 
   return offset;
 }
 Buffer.prototype.readBigInt64LE = Buffer.prototype.readBigInt64LE || function (offset = 0) {
-  let bigInt = new BN(this.toString('hex'), 16, 'le');
+  let bigInt = new BN(this, 16, 'le');
   if (bigInt.gt(F)) throw new Error('BigInt is too big');
   if (bigInt.gt(MAX)) bigInt = F.sub(bigInt).add(ONE);
   // Using global.BigInt instead of BigInt due to browser understanding
