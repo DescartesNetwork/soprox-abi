@@ -2,7 +2,8 @@ const bool = require('./bool');
 const char = require('./char');
 const usize = require('./usize');
 const isize = require('./isize');
-const types = { ...bool, ...char, ...usize, ...isize };
+const pub = require('./pub');
+const types = { ...bool, ...char, ...usize, ...isize, ...pub };
 const util = require('../util');
 
 /**
