@@ -1,4 +1,4 @@
-const { PublicKey } = require('@solana/web3.js');
+const { PublicKey } = require('@solana/web3.js')
 
 /**
  * Public key (Solana format)
@@ -6,20 +6,20 @@ const { PublicKey } = require('@solana/web3.js');
  */
 class pub {
   constructor(value = '11111111111111111111111111111111') {
-    this.value = value;
-    this.type = 'pub';
-    this.space = 32;
+    this.value = value
+    this.type = 'pub'
+    this.space = 32
   }
 
   toBuffer = () => {
-    const buf = (new PublicKey(this.value)).toBuffer();
-    return buf;
+    const buf = new PublicKey(this.value).toBuffer()
+    return buf
   }
 
   fromBuffer = (buf) => {
-    if (!Buffer.isBuffer(buf)) throw new Error('Invalid buffer');
-    this.value = (new PublicKey(buf)).toBase58();
-    return this.value;
+    if (!Buffer.isBuffer(buf)) throw new Error('Invalid buffer')
+    this.value = new PublicKey(buf).toBase58()
+    return this.value
   }
 }
 
