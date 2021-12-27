@@ -35,7 +35,7 @@ Buffer.prototype.readBigInt64LE =
   function (offset = 0) {
     let bigInt = new BN(this, 16, 'le')
     if (bigInt.gt(F)) throw new Error('BigInt is too big')
-    if (bigInt.gt(FMAX)) bigInt = F.sub(bigInt).add(ONE)
+    if (bigInt.gt(FMAX)) bigInt = NEONE.sub(F.sub(bigInt))
     // Using global.BigInt instead of BigInt due to browser understanding
     return global.BigInt(bigInt.toString())
   }
@@ -57,7 +57,8 @@ Buffer.prototype.readBigInt128LE =
   function (offset = 0) {
     let bigInt = new BN(this, 16, 'le')
     if (bigInt.gt(FF)) throw new Error('BigInt is too big')
-    if (bigInt.gt(FFMAX)) bigInt = FF.sub(bigInt).add(ONE)
+    if (bigInt.gt(FFMAX)) bigInt = NEONE.sub(FF.sub(bigInt))
+    console.log(bigInt.toString())
     // Using global.BigInt instead of BigInt due to browser understanding
     return global.BigInt(bigInt.toString())
   }
