@@ -58,7 +58,6 @@ Buffer.prototype.readBigInt128LE =
     let bigInt = new BN(this, 16, 'le')
     if (bigInt.gt(FF)) throw new Error('BigInt is too big')
     if (bigInt.gt(FFMAX)) bigInt = NEONE.sub(FF.sub(bigInt))
-    console.log(bigInt.toString())
     // Using global.BigInt instead of BigInt due to browser understanding
     return global.BigInt(bigInt.toString())
   }
